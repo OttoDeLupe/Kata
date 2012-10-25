@@ -14,5 +14,5 @@ int OperatingSystem::Open(std::string filename)
 
 int OperatingSystem::Read(int fd, char* buffer, int count)
 {
-	return Read(fd, buffer, count);
+	return read(fd, buffer, count);
 }

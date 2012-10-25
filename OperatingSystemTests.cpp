@@ -40,19 +40,16 @@ TEST_F(OperatingSystemTests, Read_Returns_Number_Of_Bytes_Read)
 
 TEST_F(OperatingSystemTests, Read_Returns_Negative_Number_On_Error)
 {
-	int fd = _os.Open(_filename);
 	char buffer[100];
 
-	EXPECT_GT(0, _os.Read(fd, buffer, 42));
+	EXPECT_GT(0, _os.Read(1234, buffer, 42));
 }
 
 bool MatchBuffer(const char* testValue, const char* constantValue, int size)
 {
 	bool returnValue = true;
-	std::cout << "In Match Buffer" << std::endl;
 	for (int i = 0; i < size; i++)
 	{
-		std::cout << i << " " << testValue[i] << " " << constantValue[i] << std::endl;
 		returnValue = (testValue[i] != constantValue[i]) ? false : true;
 	}
 	
@@ -61,18 +58,13 @@ bool MatchBuffer(const char* testValue, const char* constantValue, int size)
 
 TEST_F(OperatingSystemTests, Read_Fills_Buffer_With_Number_Of_Bytes_Requested)
 {
-	//int fd = _os.Open(_filename);
-	//int readCount;
-	//char buffer[100];
-	char c;
-//	char expectedValue[43] = "   1  80    62    70          43.1       0";
+	int fd = _os.Open(_filename);
+	int readCount;
+	char buffer[100];
+	char expectedValue[43] = "   1  80    62    70          43.1       0";
 
-	std::cout << "trying..." << std::endl;
-	int f = open("weather.dat", O_RDONLY);
-	int r = read(f, &c, 1);
-	std::cout << "read " << r << " bytes" << std::endl;
-	//readCount = _os.Read(fd, buffer, 42);
+	readCount = _os.Read(fd, buffer, 42);
 
-	//EXPECT_PRED3(MatchBuffer, buffer, expectedValue, readCount);
+	EXPECT_PRED3(MatchBuffer, buffer, expectedValue, readCount);
 }
 
