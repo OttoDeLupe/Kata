@@ -34,8 +34,9 @@ CXXFLAGS += -g -Wall -Wextra
 
 # All tests produced by this Makefile.  Remember to add new tests you
 # created to the list.
-TESTS = OperatingSystemTests
-SRCS = OperatingSystem
+MODULES = DailyWeatherData
+TESTS = $(MODULES)Tests
+SRCS =  $(MODULES)
 
 # All Google Test headers.  Usually you shouldn't change this
 # definition.
@@ -52,6 +53,7 @@ GMOCK_HEADERS = $(GMOCK_DIR)/include/gmock/*.h \
 # House-keeping build targets.
 
 all : $(TESTS)
+	$(TESTS)
 
 clean :
 	rm -f $(TESTS) gmock.a gmock_main.a *.o *.~?~
@@ -92,11 +94,11 @@ gmock_main.a : gmock-all.o gtest-all.o gmock_main.o
 
 # Builds a sample test.
 
-$(TESTS).o : $(USER_DIR)/$(TESTS).cpp $(GMOCK_HEADERS)
+$(TESTS).o : $(USER_DIR)/$(TESTS).cpp  $(GMOCK_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/$(TESTS).cpp
 
 $(SRCS).o : $(USER_DIR)/$(SRCS).cpp $(USER_DIR)/$(SRCS).h $(USER_DIR)/I$(SRCS).h
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/$(SRCS).cpp
 
-$(TESTS): $(TESTS).o $(SRCS).o  gmock_main.a
+$(TESTS): $(USER_DIR)/$(TESTS).o $(USER_DIR)/$(SRCS).o  gmock_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -pthread $^ -o $@

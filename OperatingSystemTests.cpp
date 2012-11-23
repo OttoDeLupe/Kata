@@ -1,8 +1,5 @@
 #include <iostream>
 
-#include <sys/types.h>
-#include <fcntl.h>
-
 #include "gtest/gtest.h"
 #include "OperatingSystem.h"
 
@@ -41,8 +38,9 @@ TEST_F(OperatingSystemTests, Read_Returns_Number_Of_Bytes_Read)
 TEST_F(OperatingSystemTests, Read_Returns_Negative_Number_On_Error)
 {
 	char buffer[100];
+	int bogusFD = 1234;
 
-	EXPECT_GT(0, _os.Read(1234, buffer, 42));
+	EXPECT_GT(0, _os.Read(bogusFD, buffer, 42));
 }
 
 bool MatchBuffer(const char* testValue, const char* constantValue, int size)
